@@ -100,6 +100,37 @@ spec:
 {{/*      tls:*/}}
 {{/*        enabled: true*/}}
 {{/*        secretRef: tls-kafka-poc*/}}
+  services:
+    mds:
+      tokenKeyPair:
+      provider:
+        type: ldap
+        ldap:
+          address: ldaps://ldap.openldap-demo.svc.cluster.local:389
+          authentication:
+            type: plain
+            simple:
+              secretRef: ldap-secret
+          configurations:
+            groupNameAttribute: cn
+            groupObjectClass: group
+            groupMemberAttribute: member
+            groupMemberAttributePattern: CN=(.*),DC=example,DC=org
+            groupSearchBase: dc=example,dc=org
+            userNameAttribute: cn
+            userMemberOfAttributePattern: CN=(.*),DC=example,DC=org
+            userObjectClass: organizationalRole
+            userSearchBase: dc=example,dc=org
+  authoization:
+    type: rbac
+    superUsers: 
+      - "User:admin"
+  dependencies:
+    kafkaRest:
+      authentication:
+        type: bearer
+        bearer:
+          secretRef: {{ .Values.kafka.rbacRestBearerTokenSecret }}
   dependencies:
     kRaftController:
       clusterRef:
