@@ -71,7 +71,7 @@ spec:
 {{/*          brokerPrefix: kafka-poc-b*/}}
       external:
         externalAccess:
-          type: NodePort
+          type: nodePort
       authentication:
         type: plain
         jaasConfig:
