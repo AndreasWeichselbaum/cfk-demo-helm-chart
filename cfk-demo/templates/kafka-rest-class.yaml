@@ -8,8 +8,3 @@ spec:
   kafkaClusterRef:
     name: {{ .Values.kafka.name }}
     namespace: {{ .Values.namespace }}
-  kafkaRest:
-    authentication:
-      type bearer:
-      bearer: 
-        secretRef: {{ .Values.kafkaRestClass.rbacRestBearerTokenSecret }}
