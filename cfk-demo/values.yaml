@@ -20,10 +20,6 @@ kafka:
   replicas: 1
   dataVolumeCapacity: 250Mi
   name: kafka-poc
-  rbacRestBearerTokenSecret: rbac-rest-bearer-secret
-
-kafkaRestClass:
-  rbacRestBearerTokenSecret: rbac-rest-bearer-secret
 
 schemaRegistry:
   replicas: 1
