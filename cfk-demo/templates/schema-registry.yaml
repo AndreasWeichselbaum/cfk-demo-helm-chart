@@ -16,9 +16,9 @@ spec:
     kafka:
       bootstrapEndpoint: {{ .Values.kafka.name }}.{{.Values.namespace}}.svc.cluster.local:9071
       authentication:
-        type: ldap
+        type: plain
         jaasConfig:
-           secret: ldap-secret
+           secretRef: ldap-secret
       tls:
         enabled: true
 {{/*      authentication:*/}}
