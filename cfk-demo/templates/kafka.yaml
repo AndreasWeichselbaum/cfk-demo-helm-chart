@@ -75,10 +75,10 @@ spec:
           nodePort:
             host: localhost
             nodePortOffset: 30000
-      authentication:
-        type: plain
-        jaasConfig:
-          secretRef: kafka-external-sasl-users
+{{/*      authentication:*/}}
+{{/*        type: plain*/}}
+{{/*        jaasConfig:*/}}
+{{/*          secretRef: kafka-external-sasl-users*/}}
 {{/*      tls:*/}}
 {{/*        enabled: true*/}}
 {{/*        secretRef: tls-kafka-poc*/}}
