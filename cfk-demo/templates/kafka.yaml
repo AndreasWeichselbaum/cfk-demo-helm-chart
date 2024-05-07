@@ -108,7 +108,7 @@ spec:
         ldap:
           address: ldaps://ldap.openldap-demo.svc.cluster.local:389
           authentication:
-            type: mtls
+            type: plain
             simple:
               secretRef: ldap-secret
           configurations:
@@ -121,9 +121,9 @@ spec:
             userMemberOfAttributePattern: CN=(.*),DC=example,DC=org
             userObjectClass: organizationalRole
             userSearchBase: dc=example,dc=org
-  authorization:
+  authoization:
     type: rbac
-    superUsers:
+    superUsers: 
       - "User:admin"
   dependencies:
     kafkaRest:
@@ -131,6 +131,7 @@ spec:
         type: bearer
         bearer:
           secretRef: {{ .Values.kafka.rbacRestBearerTokenSecret }}
+  dependencies:
     kRaftController:
       clusterRef:
         name: kraft-poc
