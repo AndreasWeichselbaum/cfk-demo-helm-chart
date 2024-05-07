@@ -71,9 +71,7 @@ spec:
 {{/*          brokerPrefix: kafka-poc-b*/}}
       external:
         externalAccess:
-          type: loadBalancer
-          loadBalancer:
-            domain: test.at
+          type: NodePort
       authentication:
         type: plain
         jaasConfig:
