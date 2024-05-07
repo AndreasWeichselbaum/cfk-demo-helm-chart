@@ -72,6 +72,9 @@ spec:
       external:
         externalAccess:
           type: nodePort
+          nodePort:
+            host: localhost
+            nodePortOffset: 30000
       authentication:
         type: plain
         jaasConfig:
