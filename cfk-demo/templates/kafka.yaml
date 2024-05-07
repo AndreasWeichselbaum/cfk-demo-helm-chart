@@ -75,6 +75,8 @@ spec:
           nodePort:
             host: localhost
             nodePortOffset: 30000
+        tls:
+          enabled: false
 {{/*      authentication:*/}}
 {{/*        type: plain*/}}
 {{/*        jaasConfig:*/}}
