@@ -74,6 +74,7 @@ spec:
           type: nodePort
           nodePort:
             host: localhost
+            nodePortOffset: 30000
         tls:
           enabled: false
 {{/*      authentication:*/}}
