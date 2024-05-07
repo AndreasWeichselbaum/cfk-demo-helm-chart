@@ -76,10 +76,6 @@ spec:
     external:
       authentication:
         type: ldap
-      externalAccess:
-        type: loadBalancer
-        loadBalancer:
-          domain: test.at
   identityProvider:
     type: ldap
     ldap: 
