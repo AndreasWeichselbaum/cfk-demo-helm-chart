@@ -69,6 +69,11 @@ spec:
 {{/*          domain: apps.ost.grid.inet*/}}
 {{/*          bootstrapPrefix: kafka-poc*/}}
 {{/*          brokerPrefix: kafka-poc-b*/}}
+      internal:
+        authentication:
+          type: ldap
+          jaasConfig:
+            secretRef: broker-credentials
       external:
         externalAccess:
           type: nodePort
@@ -77,6 +82,8 @@ spec:
             nodePortOffset: 30000
         tls:
           enabled: false
+        authentication:
+          type: ldap
 {{/*      authentication:*/}}
 {{/*        type: plain*/}}
 {{/*        jaasConfig:*/}}
