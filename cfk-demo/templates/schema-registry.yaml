@@ -13,6 +13,10 @@ spec:
   dependencies:
     kafka:
       bootstrapEndpoint: {{ .Values.kafka.name }}.{{.Values.namespace}}.svc.cluster.local:9071
+      authentication:
+        type: plain
+        jaasConfig:
+          secretRef: auth-credential
 {{/*      authentication:*/}}
 {{/*        type: mtls*/}}
 {{/*      tls:*/}}
