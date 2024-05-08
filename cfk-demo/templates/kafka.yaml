@@ -27,6 +27,12 @@ spec:
       requests:
         cpu: 100m
         memory: 512Mi
+  dependencies:
+    mdsKafkaCluster:
+      authentication:
+        type: plain
+        jaasConfig:
+          secretRef: auth-credential
 {{/*  storageClass:*/}}
 {{/*    name: ocs-storagecluster-ceph-rbd*/}}
 ---
