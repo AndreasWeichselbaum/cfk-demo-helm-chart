@@ -10,8 +10,6 @@ spec:
     init: {{ .Values.images.init }}
 {{/*  tls:*/}}
 {{/*    secretRef: tls-schema-registry*/}}
-  authentication:
-    type: basic
   dependencies:
     kafka:
       bootstrapEndpoint: {{ .Values.kafka.name }}.{{.Values.namespace}}.svc.cluster.local:9071
