@@ -101,9 +101,9 @@ spec:
         groupMemberAttributePattern: CN=(.*),DC={{ .Values.ldap.dc2 }},DC={{ .Values.ldap.dc1 }}
         groupSearchBase: dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
         userNameAttribute: cn
-        userMemberOfAttributePattern: CN=(.*),OU=People,DC={{ .Values.ldap.dc2 }},DC={{ .Values.ldap.dc1 }}
-        userObjectClass: person
-        userSearchBase: ou=People,dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
+        userMemberOfAttributePattern: CN=(.*),OU=Server,DC={{ .Values.ldap.dc2 }},DC={{ .Values.ldap.dc1 }}
+        userObjectClass: simpleSecurityObject
+        userSearchBase: ou=Server,dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
 {{/*      authentication:*/}}
 {{/*        type: plain*/}}
 {{/*        jaasConfig:*/}}
