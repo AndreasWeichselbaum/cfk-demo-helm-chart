@@ -27,3 +27,8 @@ restProxy:
   enabled: false
 
 namespace: kafka-confluent-poc
+
+ldap:
+  dc1: org
+  dc2: example
+
