@@ -73,7 +73,7 @@ spec:
         authentication:
           type: ldap
           jaasConfig:
-            secretRef: broker-credentials
+            secretRef: credentials
       external:
         externalAccess:
           type: nodePort

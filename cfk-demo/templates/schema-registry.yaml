@@ -16,7 +16,7 @@ spec:
       authentication:
         type: plain
         jaasConfig:
-          secretRef: auth-credential
+          secretRef: credentials
 {{/*      authentication:*/}}
 {{/*        type: mtls*/}}
 {{/*      tls:*/}}
