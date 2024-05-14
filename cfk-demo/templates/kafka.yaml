@@ -103,7 +103,7 @@ spec:
         userNameAttribute: cn
         userObjectClass: organizationalRole
         userMemberOfAttributePattern: CN=(.*),OU=Server,DC={{ .Values.ldap.dc2 }},DC={{ .Values.ldap.dc1 }}
-        userSearchBase: ou=Server,dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
+        userSearchScope: 3
 {{/*      authentication:*/}}
 {{/*        type: plain*/}}
 {{/*        jaasConfig:*/}}
