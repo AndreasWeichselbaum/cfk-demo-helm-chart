@@ -100,7 +100,7 @@ spec:
         groupSearchBase: ou=Groups,dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
         userNameAttribute: cn
         userObjectClass: organizationalRole
-        userSearchBase: ou=Server,dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
+        userSearchBase: cn=kafka,dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
 {{/*      authentication:*/}}
 {{/*        type: plain*/}}
 {{/*        jaasConfig:*/}}
