@@ -1,0 +1,92 @@
+# https://developer.confluent.io/courses/architecture/control-plane/#kraft-cluster-node-roles
+# Sounds like KRaft can either be run in dedicated or shared mode
+# CfK seems to always use dedicated mode (since they are configured separately and spawn their own pods)
+
+apiVersion: platform.confluent.io/v1beta1
+kind: KRaftController
+metadata:
+  name: kraft-poc
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.kraft.replicas }}
+  image:
+    application: {{ .Values.images.kraftControllerApplication }}
+    init: {{ .Values.images.init }}
+  dataVolumeCapacity: {{ .Values.kraft.dataVolumeCapacity }}
+{{/*  license:*/}}
+{{/*    secretRef: confluent-license*/}}
+  podTemplate:
+    labels:
+      app.kubernetes.io/part-of: kafka-poc
+    podSecurityContext:
+      runAsUser: 1001760001
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1Gi
+      requests:
+        cpu: 100m
+        memory: 512Mi
+{{/*  storageClass:*/}}
+{{/*    name: ocs-storagecluster-ceph-rbd*/}}
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: Kafka
+metadata:
+  name: {{ .Values.kafka.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+{{/*  storageClass:*/}}
+{{/*    name: ocs-storagecluster-ceph-rbd*/}}
+  replicas: {{ .Values.kafka.replicas }}
+  image:
+    application: {{ .Values.images.cpServer }}
+    init: {{ .Values.images.init }}
+{{/*  license:*/}}
+{{/*    secretRef: confluent-license*/}}
+  dataVolumeCapacity: {{ .Values.kafka.dataVolumeCapacity }}
+  podTemplate:
+    labels:
+      app.kubernetes.io/part-of: kafka-poc
+    podSecurityContext:
+      runAsUser: 1001760001
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1Gi
+      requests:
+        cpu: 100m
+        memory: 512Mi
+  configOverrides:
+    server:
+      - "confluent.metrics.topic.retention.ms=3600000"
+      - "--metric.reporters=io.confluent.metrics.reporter.ConfluentMetricsReporter"
+  listeners:
+{{/*    external:*/}}
+{{/*      externalAccess:*/}}
+{{/*        type: route*/}}
+{{/*        route:*/}}
+{{/*          domain: apps.ost.grid.inet*/}}
+{{/*          bootstrapPrefix: kafka-poc*/}}
+{{/*          brokerPrefix: kafka-poc-b*/}}
+      external:
+        externalAccess:
+          type: loadBalancer
+          loadBalancer:
+            domain: test.at
+      authentication:
+        type: plain
+        jaasConfig:
+          secretRef: kafka-external-sasl-users
+{{/*      tls:*/}}
+{{/*        enabled: true*/}}
+{{/*        secretRef: tls-kafka-poc*/}}
+  dependencies:
+    kRaftController:
+      clusterRef:
+        name: kraft-poc
+{{/*      controllerListener:*/}}
+{{/*        authentication:*/}}
+{{/*          type: mtls*/}}
+{{/*        tls:*/}}
+{{/*          enabled: true*/}}
