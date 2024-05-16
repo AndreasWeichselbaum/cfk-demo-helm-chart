@@ -23,6 +23,32 @@ spec:
       requests:
         cpu: 100m
         memory: 512Mi
+  services:
+    mds:
+      tls:
+        enabled: false
+      tokenKeyPair:
+        secretRef: kafka-mds-token-keypair
+      authentication:
+        type: bearer
+      provider:
+        type: ldap
+        ldap:
+          address: {{ .Values.kafka.mds.ldap.url }}
+          authentication:
+            type: simple
+            simple:
+              secretRef: kafka-ldap-credential
+          configurations:
+            groupNameAttribute: cn
+            groupObjectClass: group
+            groupMemberAttribute: member
+            groupMemberAttributePattern: CN=(.*),DC=ewa,DC=apg,DC=at
+            groupSearchBase: dc=ewa,dc=apg,dc=at
+            userNameAttribute: cn
+            userMemberOfAttributePattern: CN=(.*),DC=ewa,DC=apg,DC=at
+            userObjectClass: organizationalRole
+            userSearchBase: dc=ewa,dc=apg,dc=at
   dependencies:
     kRaftController:
       clusterRef:
