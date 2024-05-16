@@ -34,7 +34,7 @@ spec:
       provider:
         type: ldap
         ldap:
-          address: {{ .Values.kafka.mds.ldap.url }}
+          address: localhost:389
           authentication:
             type: simple
             simple:
