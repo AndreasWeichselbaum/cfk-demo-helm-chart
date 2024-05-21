@@ -98,7 +98,7 @@ spec:
         groupNameAttribute: cn
         groupObjectClass: groupOfNames
         groupMemberAttribute: member
-        groupSearchBase: ou=Groups,dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
+        groupSearchBase: dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
         userNameAttribute: cn
         userObjectClass: organizationalRole
         userSearchBase: dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
