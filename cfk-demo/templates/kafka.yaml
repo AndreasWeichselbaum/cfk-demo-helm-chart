@@ -113,6 +113,7 @@ spec:
     kRaftController:
       clusterRef:
         name: kraft-poc
+        namespace: kafka-confluent-poc
 {{/*      controllerListener:*/}}
 {{/*        authentication:*/}}
 {{/*          type: mtls*/}}
