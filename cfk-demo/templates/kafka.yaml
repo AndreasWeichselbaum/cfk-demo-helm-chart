@@ -13,8 +13,6 @@ spec:
     application: {{ .Values.images.kraftControllerApplication }}
     init: {{ .Values.images.init }}
   dataVolumeCapacity: {{ .Values.kraft.dataVolumeCapacity }}
-{{/*  license:*/}}
-{{/*    secretRef: confluent-license*/}}
   podTemplate:
     labels:
       app.kubernetes.io/part-of: kafka-poc
@@ -27,8 +25,6 @@ spec:
       requests:
         cpu: 100m
         memory: 512Mi
-{{/*  storageClass:*/}}
-{{/*    name: ocs-storagecluster-ceph-rbd*/}}
 ---
 apiVersion: platform.confluent.io/v1beta1
 kind: Kafka
@@ -64,18 +60,13 @@ spec:
   tls:
     secretRef: tls-group1
   listeners:
-{{/*    external:*/}}
-{{/*      externalAccess:*/}}
-{{/*        type: route*/}}
-{{/*        route:*/}}
-{{/*          domain: apps.ost.grid.inet*/}}
-{{/*          bootstrapPrefix: kafka-poc*/}}
-{{/*          brokerPrefix: kafka-poc-b*/}}
       internal:
         authentication:
           type: ldap
           jaasConfig:
             secretRef: credentials
+        tls:
+          enabled: true
       external:
         externalAccess:
           type: nodePort
@@ -86,36 +77,30 @@ spec:
           enabled: false
         authentication:
           type: ldap
-  identityProvider:
-    type: ldap
-    ldap:
-      address: ldap://ldap-service.openldap-demo.svc.cluster.local:389
-      authentication:
-        type: mtls
+  services:
+    mds:
       tls:
         enabled: true
-      configurations:
-        groupNameAttribute: cn
-        groupObjectClass: groupOfNames
-        groupMemberAttribute: member
-        groupSearchBase: dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
-        userNameAttribute: cn
-        userObjectClass: organizationalRole
-        userSearchBase: dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
-{{/*      authentication:*/}}
-{{/*        type: plain*/}}
-{{/*        jaasConfig:*/}}
-{{/*          secretRef: kafka-external-sasl-users*/}}
-{{/*      tls:*/}}
-{{/*        enabled: true*/}}
-{{/*        secretRef: tls-kafka-poc*/}}
+      tokenKeyPair:
+        secretRef: mds-token
+      provider:
+        type: ldap
+        ldap:
+          address: ldap://ldap-service.openldap-demo.svc.cluster.local:389
+          authentication:
+            type: simple
+            simple:
+              secretRef: credentials
+          configurations:
+            groupNameAttribute: cn
+            groupObjectClass: groupOfNames
+            groupMemberAttribute: member
+            groupSearchBase: dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
+            userNameAttribute: cn
+            userObjectClass: organizationalRole
+            userSearchBase: dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
   dependencies:
     kRaftController:
       clusterRef:
         name: kraft-poc
         namespace: kafka-confluent-poc
-{{/*      controllerListener:*/}}
-{{/*        authentication:*/}}
-{{/*          type: mtls*/}}
-{{/*        tls:*/}}
-{{/*          enabled: true*/}}
