@@ -77,6 +77,10 @@ spec:
           enabled: false
         authentication:
           type: ldap
+  authorization:
+    type: rbac
+    superUsers:
+      - User:admin
   services:
     mds:
       tls:
@@ -99,8 +103,4 @@ spec:
             userNameAttribute: cn
             userObjectClass: organizationalRole
             userSearchBase: dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
-  dependencies:
-    kRaftController:
-      clusterRef:
-        name: kraft-poc
-        namespace: kafka-confluent-poc
+

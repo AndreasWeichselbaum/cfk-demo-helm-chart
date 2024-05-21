@@ -8,8 +8,8 @@ spec:
   image:
     application: {{ .Values.images.registry }}
     init: {{ .Values.images.init }}
-{{/*  tls:*/}}
-{{/*    secretRef: tls-schema-registry*/}}
+  authorization:
+    type: rbac
   dependencies:
     kafka:
       bootstrapEndpoint: {{ .Values.kafka.name }}.{{.Values.namespace}}.svc.cluster.local:9071
@@ -17,7 +17,3 @@ spec:
         type: plain
         jaasConfig:
           secretRef: credentials
-{{/*      authentication:*/}}
-{{/*        type: mtls*/}}
-{{/*      tls:*/}}
-{{/*        enabled: true*/}}
