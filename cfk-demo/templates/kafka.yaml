@@ -99,8 +99,14 @@ spec:
             groupNameAttribute: cn
             groupObjectClass: groupOfNames
             groupMemberAttribute: member
+            groupMemberAttributePattern: CN=(.*),DC=example,DC=org
             groupSearchBase: dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
             userNameAttribute: cn
             userObjectClass: organizationalRole
             userSearchBase: dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
-
+  dependencies:
+    kafkaRest:
+      authentication:
+        type: bearer
+        bearer:
+          secretRef: mds-client

@@ -20,6 +20,7 @@ kafka:
   name: kafka-poc
 
 schemaRegistry:
+  enabled: false
   replicas: 1
   name: schema-registry
 
