@@ -2,11 +2,11 @@
 apiVersion: platform.confluent.io/v1beta1
 kind: KafkaRestClass
 metadata:
-  name: default
+  name: krc-default
   namespace: {{ .Values.namespace }}
 spec:
   kafkaClusterRef:
-    name: {{ .Values.kafka.name }}
+    name: {{ .Values.clusterName }}
     namespace: {{ .Values.namespace }}
   kafkaRest:
     authentication:

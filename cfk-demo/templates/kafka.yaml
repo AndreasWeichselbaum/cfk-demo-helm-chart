@@ -80,7 +80,7 @@ spec:
   authorization:
     type: rbac
     superUsers:
-      - User:admin
+      - User:kafka
   services:
     mds:
       tls:
@@ -97,15 +97,17 @@ spec:
               secretRef: credentials
           configurations:
             groupNameAttribute: cn
-            groupObjectClass: groupOfNames
+            groupObjectClass: group
             groupMemberAttribute: member
-            groupMemberAttributePattern: CN=(.*),DC=example,DC=org
-            groupSearchBase: dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
+            groupMemberAttributePattern: CN=(.*),OU=groups,DC=example,DC=org
+            groupSearchBase: ou=groups,dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
             userNameAttribute: cn
+            userMemberOfAttributePattern: CN=(.*),DC=example,DC=org
             userObjectClass: organizationalRole
             userSearchBase: dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
   dependencies:
     kafkaRest:
+      bootstrapEndpoint: {{ .Values.kafka.name }}.{{ .Values.namespace }}.svc.cluster.local:9071
       authentication:
         type: bearer
         bearer:

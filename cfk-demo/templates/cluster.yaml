@@ -1,0 +1,9 @@
+# https://stackoverflow.com/questions/38242062/how-to-get-kubernetes-cluster-name-from-k8s-api
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-info
+  namespace: {{ .Values.namespace }}
+data:
+  cluster-name: "{{ .Values.clusterName }}"
+

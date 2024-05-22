@@ -1,0 +1,10 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: ConfluentRolebinding
+metadata:
+  name: allow-developers
+  namespace: {{ .Values.namespace }}
+spec:
+  principal:
+    type: group
+    name: developers
+  role: ClusterAdmin
