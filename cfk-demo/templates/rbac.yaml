@@ -11,3 +11,20 @@ spec:
     type: group
     name: developers
   role: ClusterAdmin
+
+---
+
+apiVersion: platform.confluent.io/v1beta1
+kind: ConfluentRolebinding
+metadata:
+  name: allow-jane
+  namespace: {{ .Values.namespace }}
+spec:
+  kafkaRestClassRef:
+    name: default
+    namespace: {{ .Values.namespace }}
+  principal:
+    type: user
+    name: jane
+  role: ClusterAdmin
+
