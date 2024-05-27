@@ -4,6 +4,9 @@ metadata:
   name: allow-developers
   namespace: {{ .Values.namespace }}
 spec:
+  kafkaRestClassRef:
+    name: default
+    namespace: {{ .Values.namespace }}
   principal:
     type: group
     name: developers
