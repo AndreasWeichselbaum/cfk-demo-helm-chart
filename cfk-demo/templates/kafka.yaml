@@ -73,20 +73,33 @@ spec:
           nodePort:
             host: localhost
             nodePortOffset: 30000
-        tls:
-          enabled: false
         authentication:
           type: ldap
+          jaasConfig:
+            secretRef: credentials
+        tls:
+          enabled: true
   authorization:
     type: rbac
     superUsers:
       - User:kafka
   services:
+    kafkaRest:
+      externalAccess:
+        type: nodePort
+        nodePort:
+          host: localhost
+          nodePortOffset: 30100
     mds:
       tls:
         enabled: true
       tokenKeyPair:
         secretRef: mds-token
+      externalAccess:
+        type: nodePort
+        nodePort:
+          host: localhost
+          nodePortOffset: 30200
       provider:
         type: ldap
         ldap:
