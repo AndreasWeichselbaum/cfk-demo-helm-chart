@@ -57,8 +57,6 @@ spec:
     server:
       - "confluent.metrics.topic.retention.ms=3600000"
       - "--metric.reporters=io.confluent.metrics.reporter.ConfluentMetricsReporter"
-  tls:
-    secretRef: tls-group1
   listeners:
       internal:
         authentication:
@@ -66,7 +64,7 @@ spec:
           jaasConfig:
             secretRef: credentials
         tls:
-          enabled: true
+          enabled: false
       external:
         externalAccess:
           type: nodePort
@@ -84,7 +82,7 @@ spec:
   services:
     mds:
       tls:
-        enabled: true
+        enabled: false
       tokenKeyPair:
         secretRef: mds-token
       provider:

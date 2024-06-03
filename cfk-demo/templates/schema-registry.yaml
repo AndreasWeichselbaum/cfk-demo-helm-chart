@@ -9,8 +9,6 @@ spec:
   image:
     application: {{ .Values.images.registry }}
     init: {{ .Values.images.init }}
-  tls:
-    secretRef: tls-group1
   authorization:
     type: rbac
   dependencies:
@@ -21,10 +19,10 @@ spec:
         jaasConfig:
           secretRef: credentials
       tls:
-        enabled: true
+        enabled: false
     mds:
       tls:
-        enabled: true
+        enabled: false
       endpoint: https://{{ .Values.kafka.name }}.{{.Values.namespace}}.svc.cluster.local:8090
       tokenKeyPair:
         secretRef: mds-token
