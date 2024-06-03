@@ -22,4 +22,14 @@ spec:
           secretRef: credentials
       tls:
         enabled: true
+    mds:
+      tls:
+        enabled: true
+      endpoint: https://{{ .Values.kafka.name }}.{{.Values.namespace}}.svc.cluster.local:8090
+      tokenKeyPair:
+        secretRef: mds-token
+      authentication:
+        type: bearer
+        bearer:
+          secretRef: sr-mds-client
 {{ end }}
