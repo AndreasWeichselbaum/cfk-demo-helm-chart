@@ -79,6 +79,24 @@ spec:
             secretRef: credentials
         tls:
           enabled: true
+  identityProvider:
+    type: ldap
+    ldap:
+      address: ldap://ldap-service.openldap-demo.svc.cluster.local:389
+      authentication:
+        type: simple
+        simple:
+          secretRef: credentials
+      configurations:
+        groupNameAttribute: cn
+        groupObjectClass: group
+        groupMemberAttribute: member
+        groupMemberAttributePattern: CN=(.*),OU=groups,DC=example,DC=org
+        groupSearchBase: ou=groups,dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
+        userNameAttribute: cn
+        userMemberOfAttributePattern: CN=(.*),DC=example,DC=org
+        userObjectClass: organizationalRole
+        userSearchBase: dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
   authorization:
     type: rbac
     superUsers:
@@ -90,34 +108,6 @@ spec:
         nodePort:
           host: localhost
           nodePortOffset: 30100
-    mds:
-      tls:
-        enabled: true
-      tokenKeyPair:
-        secretRef: mds-token
-      externalAccess:
-        type: nodePort
-        nodePort:
-          host: localhost
-          nodePortOffset: 30200
-      provider:
-        type: ldap
-        ldap:
-          address: ldap://ldap-service.openldap-demo.svc.cluster.local:389
-          authentication:
-            type: simple
-            simple:
-              secretRef: credentials
-          configurations:
-            groupNameAttribute: cn
-            groupObjectClass: group
-            groupMemberAttribute: member
-            groupMemberAttributePattern: CN=(.*),OU=groups,DC=example,DC=org
-            groupSearchBase: ou=groups,dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
-            userNameAttribute: cn
-            userMemberOfAttributePattern: CN=(.*),DC=example,DC=org
-            userObjectClass: organizationalRole
-            userSearchBase: dc={{ .Values.ldap.dc2 }},dc={{ .Values.ldap.dc1 }}
   dependencies:
     kafkaRest:
       bootstrapEndpoint: {{ .Values.kafka.name }}.{{ .Values.namespace }}.svc.cluster.local:9071
