@@ -4,7 +4,7 @@ metadata:
   name: remove-kafkatopic-ownerrefs
   namespace: {{ .Values.namespace }}
   annotations:
-    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook: PreSync,PostSync
     argocd.argoproj.io/hook-delete-policy: HookSucceeded
 spec:
   ttlSecondsAfterFinished: 60
