@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: remove-kafkatopic-ownerrefs
+  namespace: {{ .Values.namespace }}
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+        - name: patch-kafkatopics
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              for topic in $(kubectl get kafkatopic -n <your-namespace> -o jsonpath='{.items[*].metadata.name}'); do
+                echo "Patching $topic..."
+                kubectl patch kafkatopic "$topic" -n <your-namespace> \
+                  --type=json \
+                  -p='[{"op": "remove", "path": "/metadata/ownerReferences"}]'
+              done
+          env:
+            - name: KUBECONFIG
+              value: /root/.kube/config
+      restartPolicy: Never
+  backoffLimit: 1
