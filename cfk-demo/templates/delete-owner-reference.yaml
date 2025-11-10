@@ -10,6 +10,7 @@ spec:
   ttlSecondsAfterFinished: 60
   template:
     spec:
+      serviceAccountName: kafkatopic-cleanup
       containers:
         - name: patch-kafkatopics
           image: bitnami/kubectl:latest
@@ -28,3 +29,33 @@ spec:
               value: /root/.kube/config
       restartPolicy: Never
   backoffLimit: 1
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kafkatopic-cleanup
+  namespace: {{ .Values.namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kafkatopic-cleanup-role
+  namespace: {{ .Values.namespace }}
+rules:
+  - apiGroups: ["kafka.confluent.io"]
+    resources: ["kafkatopics"]
+    verbs: ["get", "list", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kafkatopic-cleanup-binding
+  namespace: {{ .Values.namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kafkatopic-cleanup-role
+subjects:
+  - kind: ServiceAccount
+    name: kafkatopic-cleanup
+    namespace: {{ .Values.namespace }}
