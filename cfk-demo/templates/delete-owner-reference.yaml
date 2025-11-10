@@ -29,6 +29,7 @@ spec:
               value: /root/.kube/config
       restartPolicy: Never
   backoffLimit: 1
+
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -42,7 +43,7 @@ metadata:
   name: kafkatopic-cleanup-role
   namespace: {{ .Values.namespace }}
 rules:
-  - apiGroups: ["kafka.confluent.io"]
+  - apiGroups: ["platform.confluent.io"]
     resources: ["kafkatopics"]
     verbs: ["get", "list", "patch", "delete"]
 ---
