@@ -13,7 +13,7 @@ spec:
       serviceAccountName: kafkatopic-cleanup
       containers:
         - name: patch-kafkatopics
-          image: bitnami/kubectl:latest
+          image: istio/kubectl:1.5.10-distroless
           command:
             - /bin/sh
             - -c
