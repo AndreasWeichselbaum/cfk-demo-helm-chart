@@ -19,16 +19,16 @@ spec:
             - -c
             - |
               topics=$(kubectl get kafkatopic -n {{ .Values.namespace }} -o jsonpath='{.items[*].metadata.name}')
-              if [ -z "$topics" ]; then
-                echo "No KafkaTopics found. Nothing to patch."
-              else
-                for topic in $topics; do
-                  echo "Patching $topic..."
-                  kubectl patch kafkatopic "$topic" -n {{ .Values.namespace }} \
-                    --type=json \
-                    -p='[{"op": "remove", "path": "/metadata/ownerReferences"}]'
-                done
-              fi
+              for topic in $topics; do
+                echo "Checking $topic..."
+                has_owner_ref=$(kubectl get kafkatopic "$topic" -n {{ .Values.namespace }} -o jsonpath='{.metadata.ownerReferences}')
+                if [ -n "$has_owner_ref" ]; then
+                  echo "Patching $topic to remove ownerReference..."
+                  kubectl patch kafkatopic "$topic" -n {{ .Values.namespace }} --type=json -p='[{"op": "remove", "path": "/metadata/ownerReferences"}]'
+                else
+                  echo "$topic has no ownerReference. Skipping."
+                fi
+              done
           env:
             - name: KUBECONFIG
               value: /root/.kube/config
