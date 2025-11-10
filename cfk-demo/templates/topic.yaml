@@ -11,3 +11,5 @@ spec:
     min.insync.replicas: '1'
   kafkaClusterRef:
     name: {{ .Values.kafka.name }}
+  kafkaRestClassRef:
+    name: default
