@@ -16,9 +16,9 @@ spec:
             - /bin/sh
             - -c
             - |
-              for topic in $(kubectl get kafkatopic -n <your-namespace> -o jsonpath='{.items[*].metadata.name}'); do
+              for topic in $(kubectl get kafkatopic -n {{ .Values.namespace }} -o jsonpath='{.items[*].metadata.name}'); do
                 echo "Patching $topic..."
-                kubectl patch kafkatopic "$topic" -n <your-namespace> \
+                kubectl patch kafkatopic "$topic" -n {{ .Values.namespace }} \
                   --type=json \
                   -p='[{"op": "remove", "path": "/metadata/ownerReferences"}]'
               done
